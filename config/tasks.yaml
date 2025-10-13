@@ -14,6 +14,10 @@ market_research:
     - Competitor analysis
     - Customer insights and needs
     - Recommendations for marketing strategies
+    - You are provided with the deployed sales estimation model with function as get_sales_estimation, use this function to adjust the budget for the marketing expenses.
+    - You have to specify the following parameters to get the sales estimation from the function -> Month, LinkedIn_Ads, Tech_Conferences, Referral_Marketing, Content_Marketing, Webinars, Leads_Generated and Conversion_Rate. 
+    - sales_estimation variable will hold the output of this.
+
     Store the market research in 'resources/drafts/market_research.md'. Always update the file, if the file already exists.
     Write the files in the mentioned directory only 
 

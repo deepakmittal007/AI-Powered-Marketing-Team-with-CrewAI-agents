@@ -8,11 +8,16 @@ warnings.filterwarnings('ignore')
 from typing import List
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
+import pandas as pd
 
 from crewai_tools import SerperDevTool, ScrapeWebsiteTool, DirectoryReadTool, FileWriterTool, FileReadTool
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 load_dotenv(dotenv_path='/home/notebooks/storage/.env')
+
+# Dataset for prediction
+prediction_data = '/home/notebooks/storage/utils/AI_ML_Marketing_Sales_10yrs_data_make_predictions.xlsx'
+from sales_predictor import get_sales_estimation
 
 dr_client = dr.Client()
 
@@ -38,6 +43,10 @@ class TheMarketingCrew():
     "The marketing crew is responsible for creating and executing marketing strategies, content creation, and managing marketing campaigns."
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
+    
+    predict_df = pd.read_excel(prediction_data)
+    sales_estimation_df = get_sales_estimation(predict_df)
+    sales_estimation_df.to_csv("/home/notebooks/storage/utils/Sales_Forecasting.csv", index=False)
 
     @agent
     def head_of_marketing(self) -> Agent:
@@ -116,7 +125,7 @@ class TheMarketingCrew():
     def market_research(self) -> Task:
         return Task(
             config=self.tasks_config['market_research'],
-            agent=self.head_of_marketing()
+            agent=self.head_of_marketing(),
         )
 
     @task
